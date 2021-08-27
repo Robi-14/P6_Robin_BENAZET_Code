@@ -2,10 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const dotEnv= require('dotenv').config()
+const path = require('path')
 
+
+const saucesRoutes= require('./routes/sauces')
 
 const userRoutes = require('./routes/user');
-const Sauces = require('./models/Sauces')
+
 
 mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.958gn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
   { useNewUrlParser: true,
@@ -23,13 +26,10 @@ app.use((req, res, next) => {
     next();
   });
 
-
- 
-
-
-
- 
+   
+app.use('/images', express.static(path.join(__dirname,'images')))
 
  app.use('/api/auth', userRoutes)
+ app.use('/api/sauces', saucesRoutes)
 
 module.exports= app;
